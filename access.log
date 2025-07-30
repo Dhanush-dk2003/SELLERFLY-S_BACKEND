@@ -1,0 +1,174 @@
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-25T11:22:10.627Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-25T11:22:10.682Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:22:31.097Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:22:31.109Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:22:55.733Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:22:55.742Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-25T11:51:11.223Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-25T11:51:11.241Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-25T11:56:56.466Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-25T11:56:56.509Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:57:22.047Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:57:22.053Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:57:29.383Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:57:29.390Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:57:31.243Z"}
+warn: Unauthorized ADMIN access by user@123.com {"timestamp":"2025-06-25T11:57:31.250Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:49:44.718Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:49:44.731Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:55:28.490Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:55:28.499Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:57:32.768Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:57:32.777Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:57:51.149Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:57:51.165Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:59:52.118Z"}
+warn: Unauthorized ADMIN access by manager@123.com {"timestamp":"2025-06-26T03:59:52.138Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-26T05:15:15.805Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-26T05:15:15.826Z"}
+error: Failed to delete task: 
+Invalid `prisma.task.findUnique()` invocation:
+
+{
+  where: {
++   id: Int
+  }
+}
+
+Argument `id` is missing. {"clientVersion":"6.10.1","name":"PrismaClientValidationError","stack":"PrismaClientValidationError: \nInvalid `prisma.task.findUnique()` invocation:\n\n{\n  where: {\n+   id: Int\n  }\n}\n\nArgument `id` is missing.\n    at kn (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:29:1363)\n    at Zn.handleRequestError (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:7102)\n    at Zn.handleAndLogRequestError (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6784)\n    at Zn.request (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6491)\n    at async l (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:130:9778)\n    at async deleteTask (file:///D:/Dturn/TASK/backend/controllers/taskController.js:54:18)","timestamp":"2025-06-26T05:51:01.432Z"}
+error: Failed to delete task: 
+Invalid `prisma.task.findUnique()` invocation:
+
+{
+  where: {
++   id: Int
+  }
+}
+
+Argument `id` is missing. {"clientVersion":"6.10.1","name":"PrismaClientValidationError","stack":"PrismaClientValidationError: \nInvalid `prisma.task.findUnique()` invocation:\n\n{\n  where: {\n+   id: Int\n  }\n}\n\nArgument `id` is missing.\n    at kn (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:29:1363)\n    at Zn.handleRequestError (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:7102)\n    at Zn.handleAndLogRequestError (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6784)\n    at Zn.request (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6491)\n    at async l (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:130:9778)\n    at async deleteTask (file:///D:/Dturn/TASK/backend/controllers/taskController.js:54:18)","timestamp":"2025-06-26T05:51:05.026Z"}
+error: Failed to delete task: 
+Invalid `prisma.task.findUnique()` invocation:
+
+{
+  where: {
++   id: Int
+  }
+}
+
+Argument `id` is missing. {"clientVersion":"6.10.1","name":"PrismaClientValidationError","stack":"PrismaClientValidationError: \nInvalid `prisma.task.findUnique()` invocation:\n\n{\n  where: {\n+   id: Int\n  }\n}\n\nArgument `id` is missing.\n    at kn (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:29:1363)\n    at Zn.handleRequestError (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:7102)\n    at Zn.handleAndLogRequestError (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6784)\n    at Zn.request (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6491)\n    at async l (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:130:9778)\n    at async deleteTask (file:///D:/Dturn/TASK/backend/controllers/taskController.js:54:18)","timestamp":"2025-06-26T05:51:18.815Z"}
+error: Failed to delete task: 
+Invalid `prisma.task.findUnique()` invocation:
+
+{
+  where: {
++   id: Int
+  }
+}
+
+Argument `id` is missing. {"clientVersion":"6.10.1","name":"PrismaClientValidationError","stack":"PrismaClientValidationError: \nInvalid `prisma.task.findUnique()` invocation:\n\n{\n  where: {\n+   id: Int\n  }\n}\n\nArgument `id` is missing.\n    at kn (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:29:1363)\n    at Zn.handleRequestError (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:7102)\n    at Zn.handleAndLogRequestError (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6784)\n    at Zn.request (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6491)\n    at async l (D:\\Dturn\\TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:130:9778)\n    at async deleteTask (file:///D:/Dturn/TASK/backend/controllers/taskController.js:54:18)","timestamp":"2025-06-26T05:55:27.220Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:18:45.907Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:19:16.356Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:19:46.351Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:20:15.920Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:20:46.352Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:21:16.358Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:21:22.586Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:21:22.594Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:21:44.654Z"}
+warn: Unauthorized project access by kumardhanush730@gmail.com {"timestamp":"2025-06-26T10:21:44.664Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-27T07:21:40.676Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-27T07:21:40.702Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-27T09:13:36.924Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-27T09:14:06.920Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-27T09:14:36.924Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-27T09:15:06.914Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-27T09:15:36.914Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-06-27T09:42:59.958Z"}
+warn: Unauthorized project access by user@123.com {"timestamp":"2025-07-01T13:49:52.439Z"}
+error: Task creation failed: 
+Invalid `prisma.user.findUnique()` invocation:
+
+{
+  where: {
+    email: "kumardhanush730@gmail.com",
+    ~~~~~
+?   id?: Int,
+?   employeeId?: String,
+?   officialEmail?: String,
+?   AND?: UserWhereInput | UserWhereInput[],
+?   OR?: UserWhereInput[],
+?   NOT?: UserWhereInput | UserWhereInput[],
+?   firstName?: StringFilter | String,
+?   lastName?: StringFilter | String,
+?   dob?: DateTimeFilter | DateTime,
+?   gender?: StringFilter | String,
+?   bloodGroup?: StringNullableFilter | String | Null,
+?   joiningDate?: DateTimeFilter | DateTime,
+?   phoneNumber?: StringFilter | String,
+?   emergencyNumber?: StringFilter | String,
+?   personalEmail?: StringNullableFilter | String | Null,
+?   address?: StringNullableFilter | String | Null,
+?   role?: EnumRoleFilter | Role,
+?   department?: StringNullableFilter | String | Null,
+?   designation?: StringNullableFilter | String | Null,
+?   salary?: StringNullableFilter | String | Null,
+?   bankName?: StringNullableFilter | String | Null,
+?   accountNumber?: StringNullableFilter | String | Null,
+?   ifscCode?: StringNullableFilter | String | Null,
+?   profilePic?: StringNullableFilter | String | Null,
+?   password?: StringNullableFilter | String | Null,
+?   createdAt?: DateTimeFilter | DateTime,
+?   updatedAt?: DateTimeFilter | DateTime,
+?   projects?: ProjectListRelationFilter,
+?   tasks?: TaskListRelationFilter,
+?   sessions?: UserSessionListRelationFilter,
+?   permissionRequestsSent?: PermissionRequestListRelationFilter,
+?   permissionRequestsHandled?: PermissionRequestListRelationFilter
+  }
+}
+
+Unknown argument `email`. Available options are marked with ?. {"clientVersion":"6.10.1","name":"PrismaClientValidationError","stack":"PrismaClientValidationError: \nInvalid `prisma.user.findUnique()` invocation:\n\n{\n  where: {\n    email: \"kumardhanush730@gmail.com\",\n    ~~~~~\n?   id?: Int,\n?   employeeId?: String,\n?   officialEmail?: String,\n?   AND?: UserWhereInput | UserWhereInput[],\n?   OR?: UserWhereInput[],\n?   NOT?: UserWhereInput | UserWhereInput[],\n?   firstName?: StringFilter | String,\n?   lastName?: StringFilter | String,\n?   dob?: DateTimeFilter | DateTime,\n?   gender?: StringFilter | String,\n?   bloodGroup?: StringNullableFilter | String | Null,\n?   joiningDate?: DateTimeFilter | DateTime,\n?   phoneNumber?: StringFilter | String,\n?   emergencyNumber?: StringFilter | String,\n?   personalEmail?: StringNullableFilter | String | Null,\n?   address?: StringNullableFilter | String | Null,\n?   role?: EnumRoleFilter | Role,\n?   department?: StringNullableFilter | String | Null,\n?   designation?: StringNullableFilter | String | Null,\n?   salary?: StringNullableFilter | String | Null,\n?   bankName?: StringNullableFilter | String | Null,\n?   accountNumber?: StringNullableFilter | String | Null,\n?   ifscCode?: StringNullableFilter | String | Null,\n?   profilePic?: StringNullableFilter | String | Null,\n?   password?: StringNullableFilter | String | Null,\n?   createdAt?: DateTimeFilter | DateTime,\n?   updatedAt?: DateTimeFilter | DateTime,\n?   projects?: ProjectListRelationFilter,\n?   tasks?: TaskListRelationFilter,\n?   sessions?: UserSessionListRelationFilter,\n?   permissionRequestsSent?: PermissionRequestListRelationFilter,\n?   permissionRequestsHandled?: PermissionRequestListRelationFilter\n  }\n}\n\nUnknown argument `email`. Available options are marked with ?.\n    at kn (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:29:1363)\n    at Zn.handleRequestError (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:7102)\n    at Zn.handleAndLogRequestError (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6784)\n    at Zn.request (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6491)\n    at async l (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:130:9778)\n    at async createTask (file:///D:/Sellerfly/SELLERFLY'S_TASK/backend/controllers/taskController.js:12:18)","timestamp":"2025-07-28T15:21:06.929Z"}
+error: Task creation failed: 
+Invalid `prisma.user.findUnique()` invocation:
+
+{
+  where: {
+    email: "kumardhanush730@gmail.com",
+    ~~~~~
+?   id?: Int,
+?   employeeId?: String,
+?   officialEmail?: String,
+?   AND?: UserWhereInput | UserWhereInput[],
+?   OR?: UserWhereInput[],
+?   NOT?: UserWhereInput | UserWhereInput[],
+?   firstName?: StringFilter | String,
+?   lastName?: StringFilter | String,
+?   dob?: DateTimeFilter | DateTime,
+?   gender?: StringFilter | String,
+?   bloodGroup?: StringNullableFilter | String | Null,
+?   joiningDate?: DateTimeFilter | DateTime,
+?   phoneNumber?: StringFilter | String,
+?   emergencyNumber?: StringFilter | String,
+?   personalEmail?: StringNullableFilter | String | Null,
+?   address?: StringNullableFilter | String | Null,
+?   role?: EnumRoleFilter | Role,
+?   department?: StringNullableFilter | String | Null,
+?   designation?: StringNullableFilter | String | Null,
+?   salary?: StringNullableFilter | String | Null,
+?   bankName?: StringNullableFilter | String | Null,
+?   accountNumber?: StringNullableFilter | String | Null,
+?   ifscCode?: StringNullableFilter | String | Null,
+?   profilePic?: StringNullableFilter | String | Null,
+?   password?: StringNullableFilter | String | Null,
+?   createdAt?: DateTimeFilter | DateTime,
+?   updatedAt?: DateTimeFilter | DateTime,
+?   projects?: ProjectListRelationFilter,
+?   tasks?: TaskListRelationFilter,
+?   sessions?: UserSessionListRelationFilter,
+?   permissionRequestsSent?: PermissionRequestListRelationFilter,
+?   permissionRequestsHandled?: PermissionRequestListRelationFilter
+  }
+}
+
+Unknown argument `email`. Available options are marked with ?. {"clientVersion":"6.10.1","name":"PrismaClientValidationError","stack":"PrismaClientValidationError: \nInvalid `prisma.user.findUnique()` invocation:\n\n{\n  where: {\n    email: \"kumardhanush730@gmail.com\",\n    ~~~~~\n?   id?: Int,\n?   employeeId?: String,\n?   officialEmail?: String,\n?   AND?: UserWhereInput | UserWhereInput[],\n?   OR?: UserWhereInput[],\n?   NOT?: UserWhereInput | UserWhereInput[],\n?   firstName?: StringFilter | String,\n?   lastName?: StringFilter | String,\n?   dob?: DateTimeFilter | DateTime,\n?   gender?: StringFilter | String,\n?   bloodGroup?: StringNullableFilter | String | Null,\n?   joiningDate?: DateTimeFilter | DateTime,\n?   phoneNumber?: StringFilter | String,\n?   emergencyNumber?: StringFilter | String,\n?   personalEmail?: StringNullableFilter | String | Null,\n?   address?: StringNullableFilter | String | Null,\n?   role?: EnumRoleFilter | Role,\n?   department?: StringNullableFilter | String | Null,\n?   designation?: StringNullableFilter | String | Null,\n?   salary?: StringNullableFilter | String | Null,\n?   bankName?: StringNullableFilter | String | Null,\n?   accountNumber?: StringNullableFilter | String | Null,\n?   ifscCode?: StringNullableFilter | String | Null,\n?   profilePic?: StringNullableFilter | String | Null,\n?   password?: StringNullableFilter | String | Null,\n?   createdAt?: DateTimeFilter | DateTime,\n?   updatedAt?: DateTimeFilter | DateTime,\n?   projects?: ProjectListRelationFilter,\n?   tasks?: TaskListRelationFilter,\n?   sessions?: UserSessionListRelationFilter,\n?   permissionRequestsSent?: PermissionRequestListRelationFilter,\n?   permissionRequestsHandled?: PermissionRequestListRelationFilter\n  }\n}\n\nUnknown argument `email`. Available options are marked with ?.\n    at kn (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:29:1363)\n    at Zn.handleRequestError (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:7102)\n    at Zn.handleAndLogRequestError (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6784)\n    at Zn.request (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:121:6491)\n    at async l (D:\\Sellerfly\\SELLERFLY'S_TASK\\backend\\node_modules\\@prisma\\client\\runtime\\library.js:130:9778)\n    at async createTask (file:///D:/Sellerfly/SELLERFLY'S_TASK/backend/controllers/taskController.js:12:18)","timestamp":"2025-07-28T15:24:18.799Z"}
+info: Create task request: {"projectName":"web","status":"TODO","timestamp":"2025-07-28T15:37:58.309Z","title":"t1","userEmail":"kumardhanush730@gmail.com"}

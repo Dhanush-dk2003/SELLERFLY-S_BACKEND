@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  USER
+}
+
+enum Status {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+model User {
+  id              Int      @id @default(autoincrement())
+  employeeId      String   @unique
+  firstName       String
+  lastName        String
+  dob             DateTime
+  gender          String
+  bloodGroup      String?
+  joiningDate     DateTime
+  phoneNumber     String
+  emergencyNumber String
+  officialEmail   String   @unique
+  personalEmail   String?
+  address         String?
+  role            Role     @default(USER)
+  department      String?
+  designation     String?
+  salary          String?
+  bankName        String?
+  accountNumber   String?
+  ifscCode        String?
+  profilePic      String? // This will be a URL or filename
+  password        String? // Optional — null if not set
+
+  projects Project[]     @relation("UserProjects")
+  tasks    Task[]
+  sessions UserSession[]
+
+  permissionRequestsSent    PermissionRequest[] @relation("SentRequests")
+  permissionRequestsHandled PermissionRequest[] @relation("HandledRequests")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserSession {
+  id            Int       @id @default(autoincrement())
+  user          User      @relation(fields: [userId], references: [id])
+  userId        Int
+  loginTime     DateTime
+  logoutTime    DateTime?
+  totalDuration Float? // In hours or minutes, your choice
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  users     User[]   @relation("UserProjects")
+  tasks     Task[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    String   @default("TODO")
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  title     String
+  status    Status   @default(TODO)
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([title, projectId]) // ✅ add this at the bottom of the model
+}
+
+model PermissionRequest {
+  id Int @id @default(autoincrement())
+
+  requestedBy   User @relation("SentRequests", fields: [requestedById], references: [id])
+  requestedById Int
+
+  toEmail   String
+  reason    String
+  startTime DateTime
+  endTime   DateTime
+  status    String   @default("PENDING")
+
+  respondedBy   User? @relation("HandledRequests", fields: [respondedById], references: [id])
+  respondedById Int?
+
+  responseMessage String?
+
+  // 🆕 Add these two flags
+  senderDeleted   Boolean @default(false)
+  receiverDeleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
