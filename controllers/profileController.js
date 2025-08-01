@@ -119,57 +119,41 @@ export const deleteProfile = async (req, res) => {
       select: { id: true },
     });
 
-    if (!user) {
-      return res.status(404).json({ message: "Profile not found" });
-    }
+    if (!user) return res.status(404).json({ message: "Profile not found" });
 
     const userId = user.id;
 
-    // Use a transaction to safely handle related deletions
-    await prisma.$transaction([
-      // Delete sessions
-      prisma.userSession.deleteMany({
-        where: { userId },
-      }),
+    // Step 1: Delete related UserSessions
+    await prisma.userSession.deleteMany({ where: { userId } });
 
-      // Disconnect user from all projects
-      prisma.project.updateMany({
-        where: {
-          users: {
-            some: {
-              id: userId,
-            },
-          },
-        },
+    // Step 2: Disconnect user from projects
+    const projects = await prisma.project.findMany({
+      where: { users: { some: { id: userId } } },
+      select: { id: true },
+    });
+
+    for (const project of projects) {
+      await prisma.project.update({
+        where: { id: project.id },
         data: {
           users: {
-            disconnect: {
-              id: userId,
-            },
+            disconnect: { id: userId },
           },
         },
-      }),
+      });
+    }
 
-      // Delete tasks assigned to the user
-      prisma.task.deleteMany({
-        where: { userId },
-      }),
+    // Step 3: Delete PermissionRequests
+    await prisma.permissionRequest.deleteMany({
+      where: {
+        OR: [{ requestedById: userId }, { respondedById: userId }],
+      },
+    });
 
-      // Delete permission requests sent by the user
-      prisma.permissionRequest.deleteMany({
-        where: { requestedById: userId },
-      }),
-
-      // Delete permission requests responded by the user
-      prisma.permissionRequest.deleteMany({
-        where: { respondedById: userId },
-      }),
-
-      // Delete the user
-      prisma.user.delete({
-        where: { employeeId },
-      }),
-    ]);
+    // Step 4: Delete the user
+    await prisma.user.delete({
+      where: { employeeId },
+    });
 
     res.json({ message: "Profile deleted successfully" });
   } catch (err) {
