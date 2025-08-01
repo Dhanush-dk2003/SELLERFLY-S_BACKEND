@@ -119,17 +119,57 @@ export const deleteProfile = async (req, res) => {
       select: { id: true },
     });
 
-    if (!user) return res.status(404).json({ message: "Profile not found" });
+    if (!user) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
 
-    // Step 1: Delete related UserSessions
-    await prisma.userSession.deleteMany({
-      where: { userId: user.id },
-    });
+    const userId = user.id;
 
-    // Step 2: Delete user
-    await prisma.user.delete({
-      where: { employeeId },
-    });
+    // Use a transaction to safely handle related deletions
+    await prisma.$transaction([
+      // Delete sessions
+      prisma.userSession.deleteMany({
+        where: { userId },
+      }),
+
+      // Disconnect user from all projects
+      prisma.project.updateMany({
+        where: {
+          users: {
+            some: {
+              id: userId,
+            },
+          },
+        },
+        data: {
+          users: {
+            disconnect: {
+              id: userId,
+            },
+          },
+        },
+      }),
+
+      // Delete tasks assigned to the user
+      prisma.task.deleteMany({
+        where: { userId },
+      }),
+
+      // Delete permission requests sent by the user
+      prisma.permissionRequest.deleteMany({
+        where: { requestedById: userId },
+      }),
+
+      // Delete permission requests responded by the user
+      prisma.permissionRequest.deleteMany({
+        where: { respondedById: userId },
+      }),
+
+      // Delete the user
+      prisma.user.delete({
+        where: { employeeId },
+      }),
+    ]);
 
     res.json({ message: "Profile deleted successfully" });
   } catch (err) {
@@ -137,5 +177,3 @@ export const deleteProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
-
