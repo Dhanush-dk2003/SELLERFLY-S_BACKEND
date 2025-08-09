@@ -112,3 +112,24 @@ model PermissionRequest {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+model Client {
+  id                       Int      @id @default(autoincrement())
+  clientId                 String   @unique
+  fullName                 String
+  mobileNumber             String
+  address                  String?
+  email                    String?
+  pickupAddress            String?
+  panNumber                String?
+  bankName                 String?
+  branchName               String?
+  accountHolderName        String?
+  accountNumber            String?
+  ifscCode                 String?
+  gstCertificateLink       String?
+  trademarkCertificateLink String?
+  cancelChequeLink         String?
+  signatureLink            String?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+}
