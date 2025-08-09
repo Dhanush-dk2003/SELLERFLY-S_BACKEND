@@ -98,6 +98,7 @@ export const loginUser = async (req, res) => {
         employeeId: user.employeeId,
         name: `${user.firstName} ${user.lastName}`,
         role: user.role,
+        department: user.department,
       },
     });
   } catch (err) {

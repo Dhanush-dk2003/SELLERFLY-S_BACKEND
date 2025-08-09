@@ -23,8 +23,8 @@ app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
 app.use(
   cors({
-    // origin: "http://localhost:3000",
-    origin: "https://sellerfly-s-frontend.vercel.app",
+    origin: "http://localhost:3000",
+    // origin: "https://sellerfly-s-frontend.vercel.app",
     credentials: true,
   })
 );
