@@ -15,7 +15,6 @@ import profileRoutes from "./routes/profileRoutes.js";
 import clientRoutes from "./routes/clientsRoutes.js";
 
 
-
 dotenv.config();
 const app = express();
 
