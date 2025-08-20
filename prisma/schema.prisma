@@ -114,8 +114,8 @@ model PermissionRequest {
 }
 model Client {
   id                       Int      @id @default(autoincrement())
-  clientId                 String   @unique
   fullName                 String
+  companyName String @default("")
   mobileNumber             String
   address                  String?
   email                    String?
@@ -130,6 +130,8 @@ model Client {
   trademarkCertificateLink String?
   cancelChequeLink         String?
   signatureLink            String?
+  pancardLink              String?
+  budget                  Float?
   createdAt                DateTime @default(now())
   updatedAt                DateTime @updatedAt
 }

@@ -12,6 +12,8 @@ import apiLimiter from "./middleware/rateLimiter.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
+import clientRoutes from "./routes/clientsRoutes.js";
+
 
 
 dotenv.config();
@@ -38,6 +40,8 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/profile", profileRoutes);
+app.use("/api/clients", clientRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("API is running");

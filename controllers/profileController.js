@@ -1,6 +1,7 @@
 import prisma from "../prisma/client.js";
 
 export const getAllProfiles = async (req, res) => {
+  
   try {
     const profiles = await prisma.user.findMany();
     res.json(profiles);
