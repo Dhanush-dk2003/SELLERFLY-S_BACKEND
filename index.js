@@ -13,6 +13,7 @@ import messageRoutes from "./routes/messageRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import clientRoutes from "./routes/clientsRoutes.js";
+import portalRoutes from "./routes/portalRoutes.js";
 
 
 dotenv.config();
@@ -40,7 +41,7 @@ app.use("/api/users", userRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/profile", profileRoutes);
 app.use("/api/clients", clientRoutes);
-
+app.use("/api/portals", portalRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running");

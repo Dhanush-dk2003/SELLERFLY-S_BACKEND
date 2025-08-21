@@ -113,24 +113,49 @@ model PermissionRequest {
   updatedAt DateTime @updatedAt
 }
 model Client {
-  id                 Int      @id @default(autoincrement())
-  fullName           String
-  companyName        String   @default("")
-  mobileNumber       String
-  address            String?
-  email              String?
-  pickupAddress      String?
+  id                   Int       @id @default(autoincrement())
+  fullName             String
+  companyName          String   @default("")
+  mobileNumber         String
+  address              String?
+  email                String?
+  pickupAddress        String?
   gstCertificateNumber String? 
-  bankName           String?
-  branchName         String?
-  accountHolderName  String?
-  accountNumber      String?
-  ifscCode           String?
-  documentsLink      String?
-  description        String?  @db.Text
-  aPlus              Boolean  @default(false)
-  brandWebstore      Boolean  @default(false)
-  budget             Float?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  bankName             String?
+  branchName           String?
+  accountHolderName    String?
+  accountNumber        String?
+  ifscCode             String?
+  documentsLink        String?
+  description          String?  @db.Text
+  aPlus                Boolean  @default(false)
+  brandWebstore        Boolean  @default(false)
+  budget               Float?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  // 🔗 One client → many portals
+  portals              Portal[]
+
+  @@index([companyName]) // faster search by company name
+}
+
+model Portal {
+  id         Int       @id @default(autoincrement())
+  portalName String    // e.g., "Amazon", "Flipkart", ...
+  username   String
+  password   String
+  status     Status    @default(TODO) // uses your existing enum
+  remarks    String?
+
+  // 🔗 relation to Client
+  clientId   Int
+  client     Client    @relation(fields: [clientId], references: [id])
+
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  // prevent duplicates for same client
+  @@unique([clientId, portalName, username])
+  @@index([status])
 }
