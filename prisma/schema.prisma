@@ -150,7 +150,7 @@ model Portal {
 
   // 🔗 relation to Client
   clientId   Int
-  client     Client    @relation(fields: [clientId], references: [id])
+  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt

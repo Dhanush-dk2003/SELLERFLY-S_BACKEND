@@ -17,15 +17,15 @@ export const createPortals = async (req, res) => {
 
     // Insert many portals
     const createdPortals = await prisma.portal.createMany({
-      data: portals.map(p => ({
+      data: portals.map((p) => ({
         clientId,
-        portalName: p.portalName,
+        // ✅ if "Custom" selected, save customPortal instead
+        portalName: p.portalName === "Custom" ? p.customPortal : p.portalName,
         username: p.username,
         password: p.password,
         status: p.status || "TODO",
         remarks: p.remarks || null,
       })),
-      skipDuplicates: true, // avoid duplicate [clientId, portalName, username]
     });
 
     res.status(201).json({
@@ -68,11 +68,18 @@ export const getPortalsByClient = async (req, res) => {
 export const updatePortal = async (req, res) => {
   try {
     const { id } = req.params;
-    const { portalName, username, password, status, remarks } = req.body;
+    const { portalName, customPortal, username, password, status, remarks } = req.body;
 
     const portal = await prisma.portal.update({
       where: { id: Number(id) },
-      data: { portalName, username, password, status, remarks },
+      data: {
+        // ✅ overwrite if "Custom"
+        portalName: portalName === "Custom" ? customPortal : portalName,
+        username,
+        password,
+        status,
+        remarks,
+      },
     });
 
     res.json({ message: "Portal updated successfully", portal });
