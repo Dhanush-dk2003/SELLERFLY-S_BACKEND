@@ -3,14 +3,16 @@ import {
   createPortals,
   getPortals,
   getPortalsByClient,
+  getCatalogByClient,
   updatePortal,
   deletePortal,
-  getPortalsGrouped
+  getPortalsGrouped,
+  updatePortalsForClient
 } from "../controllers/portalController.js";
 
 const router = express.Router();
 
-// Create multiple portals for a client
+// Create multiple portals
 router.post("/", createPortals);
 
 // Get all portals
@@ -19,14 +21,20 @@ router.get("/", getPortals);
 // Get portals of a specific client
 router.get("/client/:clientId", getPortalsByClient);
 
-// Update single portal
+// Catalog (KEY ACC MANAGEMENT only)
+router.get("/catalog/:clientId", getCatalogByClient);
+
+// Update portal
 router.put("/:id", updatePortal);
 
-// Delete single portal
+// Delete portal
 router.delete("/:id", deletePortal);
 
-// Get all portals grouped by client
+// Grouped portals by client
 router.get("/grouped", getPortalsGrouped);
+
+// Update portals for a client (catalog update)
+router.put("/catalog/:clientId", updatePortalsForClient);
 
 
 export default router;

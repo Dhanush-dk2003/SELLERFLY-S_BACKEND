@@ -148,6 +148,9 @@ model Portal {
   status     Status    @default(TODO) // uses your existing enum
   remarks    String?
 
+  portalLink String?
+  masterLink String?
+
   // 🔗 relation to Client
   clientId   Int
   client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)

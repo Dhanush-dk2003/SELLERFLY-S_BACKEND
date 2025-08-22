@@ -1,6 +1,6 @@
 import prisma from "../prisma/client.js";
 
-// Create one or multiple portals for a client
+// Create multiple portals
 export const createPortals = async (req, res) => {
   try {
     const { clientId, portals } = req.body;
@@ -9,33 +9,34 @@ export const createPortals = async (req, res) => {
       return res.status(400).json({ message: "clientId and portals[] are required" });
     }
 
-    // Validate client exists
-    const client = await prisma.client.findUnique({ where: { id: clientId } });
+    const client = await prisma.client.findUnique({ where: { id: Number(clientId) } });
     if (!client) {
       return res.status(404).json({ message: "Client not found" });
     }
 
-    // Insert many portals
     const createdPortals = await prisma.portal.createMany({
       data: portals.map((p) => ({
-        clientId,
-        // ✅ if "Custom" selected, save customPortal instead
+        clientId: Number(clientId),
         portalName: p.portalName === "Custom" ? p.customPortal : p.portalName,
         username: p.username,
         password: p.password,
         status: p.status || "TODO",
         remarks: p.remarks || null,
+        portalLink: p.portalLink || null,
+        masterLink: p.masterLink || null,
       })),
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Portals created successfully",
       count: createdPortals.count,
     });
   } catch (err) {
-    res.status(500).json({ message: "Error creating portals", error: err.message });
+    console.error(err);
+    return res.status(500).json({ message: "Error creating portals", error: err.message });
   }
 };
+
 
 // Get all portals (with client info)
 export const getPortals = async (req, res) => {
@@ -54,13 +55,38 @@ export const getPortals = async (req, res) => {
 export const getPortalsByClient = async (req, res) => {
   try {
     const { clientId } = req.params;
+    const { department } = req.query; // optional query filter
+
     const portals = await prisma.portal.findMany({
-      where: { clientId: Number(clientId) },
+      where: {
+        clientId: Number(clientId),
+        ...(department && { department }), // filter if query param provided
+      },
       orderBy: { createdAt: "desc" },
     });
+
     res.json(portals);
   } catch (err) {
     res.status(500).json({ message: "Error fetching client portals", error: err.message });
+  }
+};
+
+// Catalog = Only KEY ACC MANAGEMENT portals for a client
+export const getCatalogByClient = async (req, res) => {
+  try {
+    const { clientId } = req.params;
+
+    const portals = await prisma.portal.findMany({
+      where: {
+        clientId: Number(clientId),
+        department: "KEY ACC MANAGEMENT",
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.json(portals);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching catalog portals", error: err.message });
   }
 };
 
@@ -68,23 +94,39 @@ export const getPortalsByClient = async (req, res) => {
 export const updatePortal = async (req, res) => {
   try {
     const { id } = req.params;
-    const { portalName, customPortal, username, password, status, remarks } = req.body;
+    const {
+      portalName,
+      customPortal,
+      username,
+      password,
+      status,
+      remarks,
+      portalLink,
+      masterLink,
+    } = req.body;
+
+
+    const data = {
+      portalName: portalName === "Custom" ? customPortal : portalName,
+      username,
+      password,
+      status,
+      remarks,
+      portalLink: portalLink ?? null,
+      masterLink: masterLink ?? null, 
+    };
+
+    
 
     const portal = await prisma.portal.update({
       where: { id: Number(id) },
-      data: {
-        // ✅ overwrite if "Custom"
-        portalName: portalName === "Custom" ? customPortal : portalName,
-        username,
-        password,
-        status,
-        remarks,
-      },
+      data,
     });
 
-    res.json({ message: "Portal updated successfully", portal });
+    return res.json({ message: "Portal updated successfully", portal });
   } catch (err) {
-    res.status(500).json({ message: "Error updating portal", error: err.message });
+    console.error(err);
+    return res.status(500).json({ message: "Error updating portal", error: err.message });
   }
 };
 
@@ -98,17 +140,43 @@ export const deletePortal = async (req, res) => {
     res.status(500).json({ message: "Error deleting portal", error: err.message });
   }
 };
-// In portalController.js
+
+// Grouped portals by client
 export const getPortalsGrouped = async (req, res) => {
   try {
     const portals = await prisma.client.findMany({
-      include: {
-        portals: true, // fetch all portals for that client
-      },
+      include: { portals: true },
       orderBy: { createdAt: "desc" },
     });
     res.json(portals);
   } catch (err) {
     res.status(500).json({ message: "Error fetching portals", error: err.message });
+  }
+};
+
+export const updatePortalsForClient = async (req, res) => {
+  try {
+    const { clientId } = req.params;
+    const { portals } = req.body;
+
+    await prisma.portal.deleteMany({ where: { clientId: parseInt(clientId) } });
+
+    const newPortals = await prisma.portal.createMany({
+      data: portals.map(p => ({
+        clientId: parseInt(clientId),
+        portalName: p.portalName === "Custom" ? p.customPortal : p.portalName,
+        username: p.username,
+        password: p.password,
+        status: p.status || "TODO",
+        remarks: p.remarks || null,
+        portalLink: p.portalLink || null,
+        masterLink: p.masterLink || null,
+      })),
+    });
+
+    res.json({ message: "Catalog updated", count: newPortals.count });
+  } catch (error) {
+    console.error("Error updating catalog", error);
+    res.status(500).json({ error: "Failed to update catalog" });
   }
 };
