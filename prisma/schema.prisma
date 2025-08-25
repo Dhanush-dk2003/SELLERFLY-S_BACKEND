@@ -20,6 +20,13 @@ enum Status {
   DONE
 }
 
+enum PortalHealth {
+  GOOD
+  BAD
+  NEEDS_IMPROVEMENT
+}
+
+
 model User {
   id              Int      @id @default(autoincrement())
   employeeId      String   @unique
@@ -131,6 +138,15 @@ model Client {
   aPlus                Boolean  @default(false)
   brandWebstore        Boolean  @default(false)
   budget               Float?
+
+  category             String?  
+  onboardedDate        DateTime? 
+  gstDoc               Boolean  @default(false)
+  panDoc               Boolean  @default(false)
+  trademarkDoc         Boolean  @default(false)
+  currentAccountDoc    Boolean  @default(false)
+  brandRegistryDoc     Boolean  @default(false)
+
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
@@ -150,6 +166,10 @@ model Portal {
 
   portalLink String?
   masterLink String?
+  
+  startDate   DateTime?       // when the portal onboarding / work started
+  endDate     DateTime?       // optional end date
+  portalHealth PortalHealth?  // GOOD | BAD | NEEDS_IMPROVEMENT
 
   // 🔗 relation to Client
   clientId   Int

@@ -20,7 +20,14 @@ export const createClient = async (req, res) => {
       description,
       aPlus,
       brandWebstore,
-      budget
+      budget,
+       category,
+  onboardedDate,
+  gstDoc,
+  panDoc,
+  trademarkDoc,
+  currentAccountDoc,
+  brandRegistryDoc
     } = req.body;
 
     const client = await prisma.client.create({
@@ -41,7 +48,14 @@ export const createClient = async (req, res) => {
         description,
         aPlus: aPlus || false,
         brandWebstore: brandWebstore || false,
-        budget
+        budget,
+        category,
+  onboardedDate: onboardedDate ? new Date(onboardedDate) : null,
+  gstDoc,
+  panDoc,
+  trademarkDoc,
+  currentAccountDoc,
+  brandRegistryDoc
       },
     });
 
@@ -73,7 +87,14 @@ export const updateClient = async (req, res) => {
       description,
       aPlus,
       brandWebstore,
-      budget
+      budget,
+       category,
+  onboardedDate,
+  gstDoc,
+  panDoc,
+  trademarkDoc,
+  currentAccountDoc,
+  brandRegistryDoc
     } = req.body;
 
     const client = await prisma.client.update({
@@ -95,7 +116,14 @@ export const updateClient = async (req, res) => {
         description,
         aPlus,
         brandWebstore,
-        budget
+        budget,
+        category,
+        onboardedDate: onboardedDate ? new Date(onboardedDate) : null,
+        gstDoc,
+        panDoc,
+        trademarkDoc,
+        currentAccountDoc,
+        brandRegistryDoc
       },
     });
 

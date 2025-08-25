@@ -6,10 +6,14 @@ export const createPortals = async (req, res) => {
     const { clientId, portals } = req.body;
 
     if (!clientId || !Array.isArray(portals) || portals.length === 0) {
-      return res.status(400).json({ message: "clientId and portals[] are required" });
+      return res
+        .status(400)
+        .json({ message: "clientId and portals[] are required" });
     }
 
-    const client = await prisma.client.findUnique({ where: { id: Number(clientId) } });
+    const client = await prisma.client.findUnique({
+      where: { id: Number(clientId) },
+    });
     if (!client) {
       return res.status(404).json({ message: "Client not found" });
     }
@@ -22,6 +26,9 @@ export const createPortals = async (req, res) => {
         password: p.password,
         status: p.status || "TODO",
         remarks: p.remarks || null,
+        startDate: p.startDate ? new Date(p.startDate) : null,
+        endDate: p.endDate ? new Date(p.endDate) : null,
+        portalHealth: p.portalHealth || null,
         portalLink: p.portalLink || null,
         masterLink: p.masterLink || null,
       })),
@@ -33,21 +40,26 @@ export const createPortals = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Error creating portals", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "Error creating portals", error: err.message });
   }
 };
-
 
 // Get all portals (with client info)
 export const getPortals = async (req, res) => {
   try {
     const portals = await prisma.portal.findMany({
-      include: { client: { select: { id: true, companyName: true, fullName: true } } },
+      include: {
+        client: { select: { id: true, companyName: true, fullName: true } },
+      },
       orderBy: { createdAt: "desc" },
     });
     res.json(portals);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching portals", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching portals", error: err.message });
   }
 };
 
@@ -67,7 +79,9 @@ export const getPortalsByClient = async (req, res) => {
 
     res.json(portals);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching client portals", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching client portals", error: err.message });
   }
 };
 
@@ -86,7 +100,9 @@ export const getCatalogByClient = async (req, res) => {
 
     res.json(portals);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching catalog portals", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching catalog portals", error: err.message });
   }
 };
 
@@ -101,10 +117,12 @@ export const updatePortal = async (req, res) => {
       password,
       status,
       remarks,
+      startDate,
+      endDate,
+      portalHealth,
       portalLink,
       masterLink,
     } = req.body;
-
 
     const data = {
       portalName: portalName === "Custom" ? customPortal : portalName,
@@ -112,11 +130,12 @@ export const updatePortal = async (req, res) => {
       password,
       status,
       remarks,
+      startDate: startDate ? new Date(startDate) : null,
+      endDate: endDate ? new Date(endDate) : null,
+      portalHealth,
       portalLink: portalLink ?? null,
-      masterLink: masterLink ?? null, 
+      masterLink: masterLink ?? null,
     };
-
-    
 
     const portal = await prisma.portal.update({
       where: { id: Number(id) },
@@ -126,7 +145,9 @@ export const updatePortal = async (req, res) => {
     return res.json({ message: "Portal updated successfully", portal });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Error updating portal", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "Error updating portal", error: err.message });
   }
 };
 
@@ -137,7 +158,9 @@ export const deletePortal = async (req, res) => {
     await prisma.portal.delete({ where: { id: Number(id) } });
     res.json({ message: "Portal deleted successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Error deleting portal", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error deleting portal", error: err.message });
   }
 };
 
@@ -150,7 +173,9 @@ export const getPortalsGrouped = async (req, res) => {
     });
     res.json(portals);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching portals", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching portals", error: err.message });
   }
 };
 
@@ -162,13 +187,16 @@ export const updatePortalsForClient = async (req, res) => {
     await prisma.portal.deleteMany({ where: { clientId: parseInt(clientId) } });
 
     const newPortals = await prisma.portal.createMany({
-      data: portals.map(p => ({
+      data: portals.map((p) => ({
         clientId: parseInt(clientId),
         portalName: p.portalName === "Custom" ? p.customPortal : p.portalName,
         username: p.username,
         password: p.password,
         status: p.status || "TODO",
         remarks: p.remarks || null,
+        startDate: p.startDate ? new Date(p.startDate) : null,
+        endDate: p.endDate ? new Date(p.endDate) : null,
+        portalHealth: p.portalHealth || null,
         portalLink: p.portalLink || null,
         masterLink: p.masterLink || null,
       })),
