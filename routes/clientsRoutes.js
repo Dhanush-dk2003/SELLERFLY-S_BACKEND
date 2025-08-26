@@ -7,9 +7,16 @@ import {
   updateClient,
   deleteClient,
   searchClients, // Add this
+  getActiveClients,
+  activateClient
 } from "../controllers/clientController.js";
 
 const router = express.Router();
+// ✅ fetch only active clients
+router.get("/active", getActiveClients);
+
+router.put("/activate/:id", activateClient);
+
 
 router.post("/create", createClient);
 router.get("/", getClients);

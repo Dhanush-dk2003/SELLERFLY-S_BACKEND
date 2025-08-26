@@ -21,13 +21,15 @@ export const createClient = async (req, res) => {
       aPlus,
       brandWebstore,
       budget,
-       category,
-  onboardedDate,
-  gstDoc,
-  panDoc,
-  trademarkDoc,
-  currentAccountDoc,
-  brandRegistryDoc
+      category,
+      onboardedDate,
+      gstDoc,
+      panDoc,
+      trademarkDoc,
+      currentAccountDoc,
+      brandRegistryDoc,
+      isActive,
+      productCount,
     } = req.body;
 
     const client = await prisma.client.create({
@@ -50,12 +52,14 @@ export const createClient = async (req, res) => {
         brandWebstore: brandWebstore || false,
         budget,
         category,
-  onboardedDate: onboardedDate ? new Date(onboardedDate) : null,
-  gstDoc,
-  panDoc,
-  trademarkDoc,
-  currentAccountDoc,
-  brandRegistryDoc
+        onboardedDate: onboardedDate ? new Date(onboardedDate) : null,
+        gstDoc,
+        panDoc,
+        trademarkDoc,
+        currentAccountDoc,
+        brandRegistryDoc,
+        isActive,
+        productCount,
       },
     });
 
@@ -88,13 +92,15 @@ export const updateClient = async (req, res) => {
       aPlus,
       brandWebstore,
       budget,
-       category,
-  onboardedDate,
-  gstDoc,
-  panDoc,
-  trademarkDoc,
-  currentAccountDoc,
-  brandRegistryDoc
+      category,
+      onboardedDate,
+      gstDoc,
+      panDoc,
+      trademarkDoc,
+      currentAccountDoc,
+      brandRegistryDoc,
+      isActive,
+      productCount,
     } = req.body;
 
     const client = await prisma.client.update({
@@ -123,7 +129,9 @@ export const updateClient = async (req, res) => {
         panDoc,
         trademarkDoc,
         currentAccountDoc,
-        brandRegistryDoc
+        brandRegistryDoc,
+        isActive,
+        productCount,
       },
     });
 
@@ -170,7 +178,6 @@ export const deleteClient = async (req, res) => {
   }
 };
 
-
 // Search clients
 export const searchClients = async (req, res) => {
   try {
@@ -189,6 +196,36 @@ export const searchClients = async (req, res) => {
     return res.json(clients);
   } catch (err) {
     console.error("Error searching clients:", err);
-    return res.status(500).json({ error: "Failed to search clients", details: err.message });
+    return res
+      .status(500)
+      .json({ error: "Failed to search clients", details: err.message });
+  }
+};
+// ✅ Active clients
+export const getActiveClients = async (req, res) => {
+  try {
+    const clients = await prisma.client.findMany({
+      where: { isActive: true },
+    });
+    res.json(clients);
+  } catch (err) {
+    console.error("Error fetching active clients:", err);
+    res.status(500).json({ message: "Failed to fetch active clients" });
+  }
+};
+// In clientController.js
+export const activateClient = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updated = await prisma.client.update({
+      where: { id: Number(id) },
+      data: { isActive: true },
+    });
+
+    res.json(updated);
+  } catch (err) {
+    console.error("Error activating client:", err);
+    res.status(500).json({ message: "Failed to activate client" });
   }
 };

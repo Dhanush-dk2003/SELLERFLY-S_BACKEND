@@ -14,7 +14,7 @@ import userRoutes from "./routes/userRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import clientRoutes from "./routes/clientsRoutes.js";
 import portalRoutes from "./routes/portalRoutes.js";
-
+import growthRoutes from "./routes/growthRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -42,6 +42,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/profile", profileRoutes);
 app.use("/api/clients", clientRoutes);
 app.use("/api/portals", portalRoutes);
+app.use("/api/growth", growthRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running");

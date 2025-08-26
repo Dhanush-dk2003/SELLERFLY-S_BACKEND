@@ -147,11 +147,17 @@ model Client {
   currentAccountDoc    Boolean  @default(false)
   brandRegistryDoc     Boolean  @default(false)
 
+  isActive     Boolean  @default(false)   // active/inactive toggle
+  productCount Int      @default(0) 
+
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
 
   // 🔗 One client → many portals
   portals              Portal[]
+  
+  //to track followups per client
+  followups            Followup[]
 
   @@index([companyName]) // faster search by company name
 }
@@ -181,4 +187,19 @@ model Portal {
   // prevent duplicates for same client
   @@unique([clientId, portalName, username])
   @@index([status])
+}
+model Followup {
+  id          Int      @id @default(autoincrement())
+  date        DateTime @default(now()) // auto-fill today's date
+  companyName String
+  portalName  String
+  type        String
+  description String?
+
+  // 🔗 Optional relation to Client
+  clientId Int?
+  client   Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
