@@ -1,8 +1,5 @@
 import prisma from "../prisma/client.js";
 
-/* =========================================================
-   CLIENT SECTION (Growth Page)
-========================================================= */
 
 // ✅ Update Client State (active/inactive, phone, productCount)
 export const updateClientGrowth = async (req, res) => {
@@ -27,9 +24,6 @@ export const updateClientGrowth = async (req, res) => {
 };
 
 
-/* =========================================================
-   FOLLOWUP SECTION
-========================================================= */
 
 // ✅ Add new followup
 export const addFollowup = async (req, res) => {
@@ -61,6 +55,7 @@ export const getFollowups = async (req, res) => {
 
     const whereClause = {};
 
+    // Date filter
     if (startDate && endDate) {
       whereClause.date = {
         gte: new Date(startDate),
@@ -68,26 +63,41 @@ export const getFollowups = async (req, res) => {
       };
     }
 
+    // Search filter
     if (search) {
       whereClause.OR = [
-        { companyName: { contains: search, mode: "insensitive" } },
         { portalName: { contains: search, mode: "insensitive" } },
-        { type: { contains: search, mode: "insensitive" } },
         { description: { contains: search, mode: "insensitive" } },
+        {
+          client: {
+            companyName: { contains: search, mode: "insensitive" },
+          },
+        },
       ];
     }
 
     const followups = await prisma.followup.findMany({
       where: whereClause,
+      include: { client: true }, // ✅ fetch companyName from client
       orderBy: { date: "desc" },
     });
 
-    res.json(followups);
+    // ✅ normalize output
+    const result = followups.map((f) => ({
+      id: f.id,
+      companyName: f.client?.companyName || f.companyName, // fallback
+      portalName: f.portalName,
+      description: f.description,
+      date: f.date,
+    }));
+
+    res.json(result);
   } catch (error) {
     console.error("Error fetching followups:", error);
     res.status(500).json({ message: "Error fetching followups" });
   }
 };
+
 
 // ✅ Delete selected followups
 export const deleteFollowups = async (req, res) => {

@@ -193,7 +193,6 @@ model Followup {
   date        DateTime @default(now()) // auto-fill today's date
   companyName String
   portalName  String
-  type        String
   description String?
 
   // 🔗 Optional relation to Client
