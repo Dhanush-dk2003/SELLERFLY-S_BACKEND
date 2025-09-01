@@ -1,14 +1,19 @@
 import prisma from "../prisma/client.js";
 
 export const getNextEmployeeId = async (req, res) => {
-  const lastUser = await prisma.user.findFirst({ orderBy: { id: 'desc' } });
+  const users = await prisma.user.findMany({
+    select: { employeeId: true },
+  });
 
-  let nextId = 'SKSY001';
-  if (lastUser?.employeeId) {
-    const lastNumber = parseInt(lastUser.employeeId.slice(4));
-    const newNumber = (lastNumber + 1).toString().padStart(3, '0');
-    nextId = `SKSY${newNumber}`;
+  let maxNum = 0;
+  for (const u of users) {
+    if (u.employeeId) {
+      const num = parseInt(u.employeeId.slice(4)); // take numeric part
+      if (num > maxNum) maxNum = num;
+    }
   }
+
+  const nextId = `SKSY${(maxNum + 1).toString().padStart(3, "0")}`;
 
   res.json({ nextId });
 };
@@ -17,17 +22,20 @@ export const getNextEmployeeId = async (req, res) => {
 // @access  Admin
 export const createUserProfile = async (req, res) => {
   try {
-    // Generate next employeeId like SKSY001, SKSY002
-    const lastUser = await prisma.user.findFirst({
-      orderBy: { id: 'desc' },
+    // ✅ Generate next employeeId
+    const users = await prisma.user.findMany({
+      select: { employeeId: true },
     });
 
-    let nextId = 'SKSY001';
-    if (lastUser?.employeeId) {
-      const lastNumber = parseInt(lastUser.employeeId.slice(4));
-      const newNumber = (lastNumber + 1).toString().padStart(3, '0');
-      nextId = `SKSY${newNumber}`;
+    let maxNum = 0;
+    for (const u of users) {
+      if (u.employeeId) {
+        const num = parseInt(u.employeeId.slice(4));
+        if (num > maxNum) maxNum = num;
+      }
     }
+
+    const nextId = `SKSY${(maxNum + 1).toString().padStart(3, "0")}`;
 
     const {
       firstName,
@@ -50,9 +58,6 @@ export const createUserProfile = async (req, res) => {
       ifscCode,
       profilePic
     } = req.body;
-
-   
-
 
     // Ensure officialEmail is unique
     const existingUser = await prisma.user.findFirst({
