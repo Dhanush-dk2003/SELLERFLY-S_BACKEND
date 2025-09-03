@@ -203,14 +203,14 @@ export const getsearchProfile = async (req, res) => {
 export const getProfilePic = async (req, res) => {
   try {
     const { employeeId } = req.params;
-    console.log("Fetching profile picture for employeeId:", employeeId);
+    // console.log("Fetching profile picture for employeeId:", employeeId);
     
     const user = await prisma.user.findUnique({
       where: { employeeId },
       select: { profilePic: true },
     });
 
-    console.log("User found:", !!user, "ProfilePic exists:", !!user?.profilePic);
+    // console.log("User found:", !!user, "ProfilePic exists:", !!user?.profilePic);
     
     // Return 404 without JSON content for no profile picture
     if (!user || !user.profilePic) {
@@ -249,11 +249,11 @@ export const getProfilePic = async (req, res) => {
         }
       }
       
-      console.log("Backend Profile Pic MIME Type:", { 
-        detected: type, 
-        used: contentType,
-        bufferSize: user.profilePic.length 
-      });
+      // console.log("Backend Profile Pic MIME Type:", { 
+      //   detected: type, 
+      //   used: contentType,
+      //   bufferSize: user.profilePic.length 
+      // });
       
       // Set proper headers for image response
       res.set({
