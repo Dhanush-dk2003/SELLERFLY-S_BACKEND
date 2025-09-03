@@ -48,7 +48,7 @@ model User {
   bankName        String?
   accountNumber   String?
   ifscCode        String?
-  profilePic      String? // This will be a URL or filename
+  profilePic      Bytes? // This will be a binary
   password        String? // Optional — null if not set
 
   projects Project[]     @relation("UserProjects")

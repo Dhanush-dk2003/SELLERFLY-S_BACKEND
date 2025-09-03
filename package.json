@@ -4,11 +4,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-  "dev": "nodemon index.js",
-  "start": "node index.js",
-  "postinstall": "prisma generate && prisma db push",
-  "build": "echo 'No build step needed'"
-},
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "postinstall": "prisma generate && prisma db push",
+    "build": "echo 'No build step needed'"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -22,6 +22,7 @@
     "exceljs": "^4.4.0",
     "express": "^5.1.0",
     "express-rate-limit": "^7.5.1",
+    "file-type": "^21.0.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
     "prisma": "^6.13.0",
