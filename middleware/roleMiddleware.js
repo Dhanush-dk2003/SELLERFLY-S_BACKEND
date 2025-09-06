@@ -31,3 +31,10 @@ export const isAdminOrManager = (req, res, next) => {
   logger.warn(`Unauthorized project access by ${req.user.officialEmail}`, { timestamp: new Date().toISOString() }); // Changed from req.user.email
   return res.status(403).json({ message: 'Access denied' });
 };
+export const isAdminOrManagerOrUser = (req, res, next) => {
+  if (['ADMIN', 'MANAGER', 'USER'].includes(req.user.role)) {
+    return next();
+  }
+  logger.warn(`Unauthorized project access by ${req.user.officialEmail}`, { timestamp: new Date().toISOString() });
+  return res.status(403).json({ message: 'Access denied' });
+};
