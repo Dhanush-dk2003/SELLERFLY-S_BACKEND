@@ -8,6 +8,160 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model User {
+  id                        Int                 @id @default(autoincrement())
+  password                  String?
+  role                      Role                @default(USER)
+  createdAt                 DateTime            @default(now())
+  updatedAt                 DateTime            @updatedAt
+  accountNumber             String?
+  address                   String?
+  bankName                  String?
+  bloodGroup                String?
+  department                String?
+  designation               String?
+  dob                       DateTime
+  emergencyNumber           String
+  employeeId                String              @unique
+  firstName                 String
+  gender                    String
+  ifscCode                  String?
+  joiningDate               DateTime
+  lastName                  String
+  officialEmail             String              @unique
+  personalEmail             String?
+  phoneNumber               String
+  profilePic                Bytes?
+  salary                    String?
+  permissionRequestsSent    PermissionRequest[] @relation("SentRequests")
+  permissionRequestsHandled PermissionRequest[] @relation("HandledRequests")
+  tasks                     Task[]
+  sessions                  UserSession[]
+  projects                  Project[]           @relation("UserProjects")
+}
+
+model UserSession {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  loginTime     DateTime
+  logoutTime    DateTime?
+  totalDuration Float?
+  user          User      @relation(fields: [userId], references: [id])
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    String   @default("TODO")
+  tasks     Task[]
+  users     User[]   @relation("UserProjects")
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  title     String
+  status    Status   @default(TODO)
+  userId    Int?
+  projectId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  project   Project  @relation(fields: [projectId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@unique([title, projectId])
+}
+
+model PermissionRequest {
+  id              Int      @id @default(autoincrement())
+  requestedById   Int
+  toEmail         String
+  reason          String
+  status          String   @default("PENDING")
+  respondedById   Int?
+  responseMessage String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  startTime       DateTime
+  endTime         DateTime
+  receiverDeleted Boolean  @default(false)
+  senderDeleted   Boolean  @default(false)
+  requestedBy     User     @relation("SentRequests", fields: [requestedById], references: [id])
+  respondedBy     User?    @relation("HandledRequests", fields: [respondedById], references: [id])
+}
+
+model Client {
+  id                   Int        @id @default(autoincrement())
+  fullName             String
+  mobileNumber         String
+  address              String?
+  email                String?
+  pickupAddress        String?
+  bankName             String?
+  branchName           String?
+  accountHolderName    String?
+  accountNumber        String?
+  ifscCode             String?
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+  companyName          String     @default("")
+  budget               Float?
+  aPlus                Boolean    @default(false)
+  brandWebstore        Boolean    @default(false)
+  description          String?
+  documentsLink        String?
+  gstCertificateNumber String?
+  brandRegistryDoc     Boolean    @default(false)
+  category             String?
+  currentAccountDoc    Boolean    @default(false)
+  gstDoc               Boolean    @default(false)
+  onboardedDate        DateTime?
+  panDoc               Boolean    @default(false)
+  trademarkDoc         Boolean    @default(false)
+  isActive             Boolean    @default(false)
+  productCount         Int        @default(0)
+  lastPaymentDate      DateTime?  @db.Timestamp(6)
+  followups            Followup[]
+  portals              Portal[]
+
+  @@index([companyName])
+}
+
+model Portal {
+  id           Int           @id @default(autoincrement())
+  portalName   String
+  username     String
+  password     String
+  status       Status        @default(TODO)
+  remarks      String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  clientId     Int
+  masterLink   String?
+  portalLink   String?
+  endDate      DateTime?
+  portalHealth PortalHealth?
+  startDate    DateTime?
+  registeredBy RegisteredBy  @default(US)
+  client       Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, portalName, username])
+  @@index([status])
+}
+
+model Followup {
+  id          Int      @id @default(autoincrement())
+  date        DateTime @default(now())
+  companyName String
+  portalName  String
+  description String?
+  clientId    Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  client      Client?  @relation(fields: [clientId], references: [id])
+}
+
 enum Role {
   ADMIN
   MANAGER
@@ -26,179 +180,7 @@ enum PortalHealth {
   NEEDS_IMPROVEMENT
 }
 
-
-model User {
-  id              Int      @id @default(autoincrement())
-  employeeId      String   @unique
-  firstName       String
-  lastName        String
-  dob             DateTime
-  gender          String
-  bloodGroup      String?
-  joiningDate     DateTime
-  phoneNumber     String
-  emergencyNumber String
-  officialEmail   String   @unique
-  personalEmail   String?
-  address         String?
-  role            Role     @default(USER)
-  department      String?
-  designation     String?
-  salary          String?
-  bankName        String?
-  accountNumber   String?
-  ifscCode        String?
-  profilePic      Bytes? // This will be a binary
-  password        String? // Optional — null if not set
-
-  projects Project[]     @relation("UserProjects")
-  tasks    Task[]
-  sessions UserSession[]
-
-  permissionRequestsSent    PermissionRequest[] @relation("SentRequests")
-  permissionRequestsHandled PermissionRequest[] @relation("HandledRequests")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model UserSession {
-  id            Int       @id @default(autoincrement())
-  user          User      @relation(fields: [userId], references: [id])
-  userId        Int
-  loginTime     DateTime
-  logoutTime    DateTime?
-  totalDuration Float? // In hours or minutes, your choice
-}
-
-model Project {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  users     User[]   @relation("UserProjects")
-  tasks     Task[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  status    String   @default("TODO")
-}
-
-model Task {
-  id        Int      @id @default(autoincrement())
-  title     String
-  status    Status   @default(TODO)
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
-  project   Project  @relation(fields: [projectId], references: [id])
-  projectId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([title, projectId]) // ✅ add this at the bottom of the model
-}
-
-model PermissionRequest {
-  id Int @id @default(autoincrement())
-
-  requestedBy   User @relation("SentRequests", fields: [requestedById], references: [id])
-  requestedById Int
-
-  toEmail   String
-  reason    String
-  startTime DateTime
-  endTime   DateTime
-  status    String   @default("PENDING")
-
-  respondedBy   User? @relation("HandledRequests", fields: [respondedById], references: [id])
-  respondedById Int?
-
-  responseMessage String?
-
-  // 🆕 Add these two flags
-  senderDeleted   Boolean @default(false)
-  receiverDeleted Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-model Client {
-  id                   Int       @id @default(autoincrement())
-  fullName             String
-  companyName          String   @default("")
-  mobileNumber         String
-  address              String?
-  email                String?
-  pickupAddress        String?
-  gstCertificateNumber String? 
-  bankName             String?
-  branchName           String?
-  accountHolderName    String?
-  accountNumber        String?
-  ifscCode             String?
-  documentsLink        String?
-  description          String?  @db.Text
-  aPlus                Boolean  @default(false)
-  brandWebstore        Boolean  @default(false)
-  budget               Float?
-
-  category             String?  
-  onboardedDate        DateTime? 
-  gstDoc               Boolean  @default(false)
-  panDoc               Boolean  @default(false)
-  trademarkDoc         Boolean  @default(false)
-  currentAccountDoc    Boolean  @default(false)
-  brandRegistryDoc     Boolean  @default(false)
-
-  isActive     Boolean  @default(false)   // active/inactive toggle
-  productCount Int      @default(0) 
-
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-
-  // 🔗 One client → many portals
-  portals              Portal[]
-  
-  //to track followups per client
-  followups            Followup[]
-
-  @@index([companyName]) // faster search by company name
-}
-
-model Portal {
-  id         Int       @id @default(autoincrement())
-  portalName String    // e.g., "Amazon", "Flipkart", ...
-  username   String
-  password   String
-  status     Status    @default(TODO) // uses your existing enum
-  remarks    String?
-
-  portalLink String?
-  masterLink String?
-  
-  startDate   DateTime?       // when the portal onboarding / work started
-  endDate     DateTime?       // optional end date
-  portalHealth PortalHealth?  // GOOD | BAD | NEEDS_IMPROVEMENT
-
-  // 🔗 relation to Client
-  clientId   Int
-  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
-
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-
-  // prevent duplicates for same client
-  @@unique([clientId, portalName, username])
-  @@index([status])
-}
-model Followup {
-  id          Int      @id @default(autoincrement())
-  date        DateTime @default(now()) // auto-fill today's date
-  companyName String
-  portalName  String
-  description String?
-
-  // 🔗 Optional relation to Client
-  clientId Int?
-  client   Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum RegisteredBy {
+  US
+  CLIENT
 }

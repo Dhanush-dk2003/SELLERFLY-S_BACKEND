@@ -3,10 +3,13 @@ import {
   updateClientGrowth,
   addFollowup,
   getFollowups,
-  deleteFollowups,
+  deleteFollowups,getClientById 
 } from "../controllers/growthController.js";
 
+
+
 const router = express.Router();
+router.get("/client/:id", getClientById);
 
 /* Client Growth Updates */
 router.put("/client/:id", updateClientGrowth);

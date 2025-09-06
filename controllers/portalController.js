@@ -31,6 +31,8 @@ export const createPortals = async (req, res) => {
         portalHealth: p.portalHealth || null,
         portalLink: p.portalLink || null,
         masterLink: p.masterLink || null,
+        registeredBy: p.registeredBy || "US",
+        
       })),
     });
 
@@ -122,6 +124,7 @@ export const updatePortal = async (req, res) => {
       portalHealth,
       portalLink,
       masterLink,
+      registeredBy,
     } = req.body;
 
     const data = {
@@ -135,6 +138,7 @@ export const updatePortal = async (req, res) => {
       portalHealth,
       portalLink: portalLink ?? null,
       masterLink: masterLink ?? null,
+       ...(registeredBy && { registeredBy }),
     };
 
     const portal = await prisma.portal.update({
@@ -199,6 +203,7 @@ export const updatePortalsForClient = async (req, res) => {
         portalHealth: p.portalHealth || null,
         portalLink: p.portalLink || null,
         masterLink: p.masterLink || null,
+        registeredBy: p.registeredBy || "US",
       })),
     });
 

@@ -1,20 +1,42 @@
 import prisma from "../prisma/client.js";
 
+export const getClientById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const client = await prisma.client.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!client) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    res.json(client);
+  } catch (error) {
+    console.error("Error fetching client:", error);
+    res.status(500).json({ message: "Error fetching client" });
+  }
+};
 
 // ✅ Update Client State (active/inactive, phone, productCount)
 export const updateClientGrowth = async (req, res) => {
   try {
     const { id } = req.params;
-    const { active, phoneNumber, productCount } = req.body;
+    const { isActive, mobileNumber, productCount, lastPaymentDate, budget, address, description } = req.body;
 
-    const updatedClient = await prisma.client.update({
-      where: { id: Number(id) },
-      data: {
-        active,
-        phoneNumber,
-        productCount,
-      },
-    });
+const updatedClient = await prisma.client.update({
+  where: { id: Number(id) },
+  data: {
+    isActive,
+    mobileNumber, // Note: frontend sends mobileNumber, not phoneNumber
+    productCount,
+    lastPaymentDate: lastPaymentDate ? new Date(lastPaymentDate) : null,
+    budget,
+    address,
+    description,
+  },
+});
 
     res.json(updatedClient);
   } catch (error) {
@@ -22,6 +44,7 @@ export const updateClientGrowth = async (req, res) => {
     res.status(500).json({ message: "Error updating client" });
   }
 };
+
 
 
 
